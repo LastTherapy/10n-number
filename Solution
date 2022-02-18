@@ -1,0 +1,46 @@
+# Время выполнения - 0.2627791 секунды
+# создаем массив с цифрами
+numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+
+# возвращает набор цифр, которые не были использованы в переданном числе
+def removeRepeatFromNumbers(number):
+    result = numbers.copy()
+    # переводим число в строку для получения составляющих его цифр
+    strNumber = str(number)
+    intNumber = []
+    # добавляем составляющие его цифры в массив уже как числа
+    for n in strNumber:
+        intNumber.append(int(n))
+    # удаляем из набора цифр эти числа
+    for n in intNumber:
+        result.remove(n)
+    return result
+
+
+# создает все возможные кобинации текущего набора чисел с новым шагом (подпадающие под условия задачи)
+def makeCombinations(currentNumbers):
+    result = []
+    for n in currentNumbers:
+        for n2 in removeRepeatFromNumbers(n):
+            num = int(str(n) + str(n2))
+            # делаем проверку на условие задачи
+            if (checkNumber(num)):
+                result.append(num)
+
+    return result
+
+# проверяет подпадает ли число под условие задачи на текущем шаге
+def checkNumber(number):
+    if (number % len(str(number)) == 0):
+        return True
+    else:
+        return False
+
+# нужно чтобы число не начиналось с нуля. поэтому удаляем 0 из стартового набора цифр и деалем все возможные комбинации двухзначного числа
+x = makeCombinations(removeRepeatFromNumbers(0))
+# число в нашей состоит из десяти знаков. Два знака у нас уже есть, поэтому делаем все возможные комбинации еще раз
+for i in range(8):
+    x = makeCombinations(x)
+# выводим результат
+print(*x)
